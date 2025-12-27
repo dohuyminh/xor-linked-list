@@ -103,6 +103,23 @@ public:
         ++_size;        
     }
 
+    void push_back(T&& element) {
+        // if the list is empty
+        if (empty()) {
+            _front = _back = new Node(std::move(element));
+            ++_size;
+            return;
+        } 
+
+        // list is not empty -> _back is not null
+        auto newBack = new Node(std::move(element));
+        
+        newBack->le_xor_thingy = reinterpret_cast<uintptr_t>(_back);
+        _back->le_xor_thingy ^= reinterpret_cast<uintptr_t>(newBack);
+        _back = newBack;
+        ++_size;        
+    }
+
     void push_front(const T& element) {
         if (empty()) {
             _front = _back = new Node(element); 
@@ -119,6 +136,20 @@ public:
 
         _front = newFront;
     
+        ++_size;
+    }
+
+    void push_front(T&& element) {
+        if (empty()) {
+            _front = _back = new Node(std::move(element)); 
+            ++_size;
+            return;
+        }
+
+        auto newFront = new Node(std::move(element));
+        newFront->le_xor_thingy = reinterpret_cast<uintptr_t>(_front);
+        _front->le_xor_thingy ^= reinterpret_cast<uintptr_t>(newFront);
+        _front = newFront;
         ++_size;
     }
 
@@ -173,6 +204,32 @@ public:
         uintptr_t cnew = reinterpret_cast<uintptr_t>(nnode);
 
         // insert a new node in between prev and curr
+        prev->le_xor_thingy ^= ccurr ^ cnew;
+        curr->le_xor_thingy ^= cprev ^ cnew;
+    
+        ++_size;
+    }
+
+    void insert(T&& data, std::size_t index) {
+        
+        if (index == 0) {
+            push_front(std::move(data));
+            return;
+        }
+        else if (index == _size) {
+            push_back(std::move(data));
+            return;
+        }
+
+        auto [ prev, curr ] = iterate(index);
+           
+        uintptr_t cprev = reinterpret_cast<uintptr_t>(prev), ccurr = reinterpret_cast<uintptr_t>(curr);
+
+        auto nnode = new Node(std::move(data));
+        nnode->le_xor_thingy = cprev ^ ccurr;
+
+        uintptr_t cnew = reinterpret_cast<uintptr_t>(nnode);
+
         prev->le_xor_thingy ^= ccurr ^ cnew;
         curr->le_xor_thingy ^= cprev ^ cnew;
     
