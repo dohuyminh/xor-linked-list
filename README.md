@@ -144,6 +144,4 @@ There are some edge cases I have not mentioned discussing the operations' implem
 
 And in the end,...
 
-It still suffers the flaws of a "vanilla" linked list: unfriendly for random access, an "element" still takes extra space for navigation and cache misses slow everything down.
-
-This is a party trick, at best. 
+It still shares the flaws of the classic linked list implementation: unfriendly for random access, an "element" still takes extra space for navigation and cache misses slow everything down. 
