@@ -3,9 +3,20 @@
 ## DISCLAIMER:
 **EVERYTHING YOU ARE ABOUT TO READ ARE FOR EDUCATIONAL AND RECREATIONAL PURPOSES ONLY; ANY ATTEMPT ON APPLYING THIS ON PRODUCTION CODE MAY RESULT IN GETTING SCOLDED BY YOUR LOCAL SENIOR DEVELOPER/PROJECT MANAGER ON A CODE REVIEW.**
 
+## Demo:
+
+The linked list implementation, as well as the demo is available in this repository. You can run the code however you wish. 
+
+Assuming you are cloning this from a Unix machine, you can use the GNU compiler/Clang to compile and run:
+
+```bash
+$ g++ -o xor_list xor_list.cpp
+$ ./xor_list
+```
+
 ## 1. An introduction to XOR and the "trick":
 
-In boolean algebra, an Exclusive Or (XOR/$\oplus$) is a binary operator that will return true if the 2 variables share different values, and false otherwise.
+In boolean algebra, an Exclusive Or (XOR/$\oplus$/^) is a binary operator that will return true if the 2 variables share different values, and false otherwise.
 
 | $X$ | $Y$ | $X \oplus Y$ |
 |---|---|-------|
@@ -17,8 +28,7 @@ In boolean algebra, an Exclusive Or (XOR/$\oplus$) is a binary operator that wil
 An interesting property of this property arises when you apply XOR a second time to one of the variables:
 
 $$
-X \oplus Y \oplus Y \equiv X \\
-X \oplus Y \oplus X \equiv Y
+X \oplus Y \oplus Y \equiv X \newline X \oplus Y \oplus X \equiv Y
 $$
 
 So what does this have to do with a **Linked List**?
@@ -43,6 +53,11 @@ One might attribute why a doubly linked list is not so often used in production 
 However, by interpreting a pointer as a 64-bit object, we can reduce the size of the node by 8 bytes with some bit magic and a lot of unreadable code.
 
 ## 3. XOR Linked List:
+
+For the pseudocode sections, define some functions as follows:
+- `addr(obj)`: the address of the object
+- `prev(node)`: the previous node (essentially node.prev)
+- `next(node)`: the next node (essentially node.next)
 
 Given an address is a 8-byte (or 64-bit) object. We may redesign the node data structure as follows:
 
@@ -119,9 +134,9 @@ Same method applies for `curr`.
 
 ## 4. Why this probably doesn't get mentioned in your DSA course:
 
-Because it's weird and confusing to most.
+Because it's weird and confusing to many.
 
-Most students learning about Data Structures in their university course probably learns about linked lists after array. The concept and implementation of a linked list is trippy as-is; imagine saying a bitwise operator can help make a data structure more space efficient.
+Most students learning about Data Structures in their university course probably learns about linked lists after array. The concept and implementation of a linked list is trippy as-is; imagine saying a bitwise operator is not only related, but also can help make a data structure more space efficient.
 
 It's also impractical.
 
